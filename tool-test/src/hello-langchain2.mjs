@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import z from 'zod';
 import { ChatOpenAI } from '@langchain/openai';
-import { tool } from '@langchain/core/tools'
+import { tool } from '@langchain/core/tools';
 import fs from 'node:fs/promises';
 import { HumanMessage, SystemMessage, ToolMessage } from '@langchain/core/messages';
 
@@ -41,11 +41,11 @@ const messages = [
 可用工具：
 - read_file: 读取文件内容（使用此工具来获取文件内容）`),
   new HumanMessage('请读取 src/hello-langchain.mjs 文件内容并解释代码')
-]
+];
 
 let response = await modelWithTools.invoke(messages);
 
-messages.push(response)
+messages.push(response);
 
 while(response.tool_calls && response.tool_calls.length > 0) {
   console.log(`\n[检测到] ${response.tool_calls.length} 个工具调用`);
@@ -54,7 +54,7 @@ while(response.tool_calls && response.tool_calls.length > 0) {
     response.tool_calls.map(async toolCall => {
       const tool = tools.find(t => t.name === toolCall.name);
       if (!tool) {
-        return '没检测到工具调用'
+        return '没检测到工具调用';
       }
 
       console.log(`检测到工具, 名称为 ${toolCall.name}, 参数为 ${JSON.stringify(toolCall.args)}`);
@@ -63,17 +63,17 @@ while(response.tool_calls && response.tool_calls.length > 0) {
         const result = await tool.invoke(toolCall.args);
         return result;
       } catch(err) {
-        return `工具 ${toolCall.name} 调用失败, 错误信息为 ${err.message}`
+        return `工具 ${toolCall.name} 调用失败, 错误信息为 ${err.message}`;
       }
     })
-  )
+  );
 
   response.tool_calls.forEach((toolCall, index) => {
     messages.push(new ToolMessage({
       tool_call_id: toolCall.id,
       content: toolResults[index]
-    }))
-  })
+    }));
+  });
   
   response = await modelWithTools.invoke(messages);
   

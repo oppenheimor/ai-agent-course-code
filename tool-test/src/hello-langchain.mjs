@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 import { ChatOpenAI } from '@langchain/openai';
 import { tool } from '@langchain/core/tools';
 import { SystemMessage, HumanMessage, ToolMessage } from '@langchain/core/messages';
@@ -23,7 +23,7 @@ const model = new ChatOpenAI({
  */
 const readFileTool = tool(async ({ filePath }) => {
   const content = await fs.readFile(filePath, 'utf8');
-  console.log(`[工具调用] read_file("${filePath}") - 成功读取 ${content.length} 字节`)
+  console.log(`[工具调用] read_file("${filePath}") - 成功读取 ${content.length} 字节`);
   return `文件内容：\n${content}`;
 }, {
   name: 'read_file',
@@ -74,13 +74,13 @@ while (response.tool_calls && response.tool_calls.length > 0) {
       if (!tool) {
         return `错误：未找到工具 ${toolCall.name}`;
       }
-      console.log(`[调用工具] ${toolCall.name}(${JSON.stringify(toolCall.arguments)})`)
+      console.log(`[调用工具] ${toolCall.name}(${JSON.stringify(toolCall.arguments)})`);
       try {
         // 执行工具函数, 得到结果
         const result = await tool.invoke(toolCall.args);
         return result;
       } catch (err) {
-        return `错误: ${err.message}`
+        return `错误: ${err.message}`;
       }
     })
   );
@@ -90,8 +90,8 @@ while (response.tool_calls && response.tool_calls.length > 0) {
     messages.push(new ToolMessage({
       tool_call_id: toolCall.id,
       content: toolResults[index]
-    }))
-  })
+    }));
+  });
 
   // 拿到工具调用结果，再调一次模型
   response = await modelWithTools.invoke(messages);
