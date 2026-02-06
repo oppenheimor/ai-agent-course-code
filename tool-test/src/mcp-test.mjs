@@ -6,7 +6,7 @@ import chalk from 'chalk';
 
 const model = new ChatOpenAI({
   modelName: 'qwen-plus',
-apiKey: "sk-DAhTDsAUjtfro7KT0AgYfQcJdU4FMJyaW88H3ezdsmaVumuf",
+  apiKey: "sk-DAhTDsAUjtfro7KT0AgYfQcJdU4FMJyaW88H3ezdsmaVumuf",
   temperature: 0,
   configuration: {
     baseURL: "https://api.302.ai/v1/chat/completions",
